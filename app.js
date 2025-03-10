@@ -215,21 +215,16 @@ app.post('/user/book-movie/:userId', async (req, res) => {
     }
 });
 
-app.post('/admin/add-movie',async(req,res)=>{
-    const {name,photo,ticketPrice,rating} = req.body;
+app.post('/admin/add-movie', async (req, res) => {
+    const { name, photo, ticketPrice, rating } = req.body;
 
-    try{
-        const newMovie = new Movie({
-            name,
-            photo,
-            ticketPrice,
-            rating
-        });
-        newMovie.save();
-        res.send('Movie Added');
-    }
-    catch(err){
+    try {
+        const newMovie = new Movie({ name, photo, ticketPrice, rating });
+        await newMovie.save();
+        res.render('success', { message: 'Movie uploaded successfully!' });
+    } catch (err) {
         console.log(err);
+        res.status(500).send('Error adding movie.');
     }
 });
 
