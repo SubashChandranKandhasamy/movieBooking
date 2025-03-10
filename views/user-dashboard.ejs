@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, User!</h1>
+    <h2>Available Movies</h2>
+    <ul>
+        <% movies.forEach(movie => { %>
+            <li>
+                <img src="<%= movie.photo %>" alt="<%= movie.name %>" width="100">
+                <h3><%= movie.name %></h3>
+                <p>Ticket Price: $<%= movie.ticketPrice %></p>
+                <p>Rating: <%= movie.rating %></p>
+                <form action="/user/book-movie/<%= userId %>" method="POST">
+                    <input type="hidden" name="movieId" value="<%= movie._id %>">
+                    <label for="tickets">Number of Tickets:</label>
+                    <input type="number" id="tickets" name="tickets" min="1" required>
+                    <button type="submit">Book Ticket</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+
+    <h2>Your Booked Movies</h2>
+    <ul>
+        <% userBookings.forEach(booking => { %>
+            <li>
+                <img src="<%= booking.movieId.photo %>" alt="<%= booking.movieId.name %>" width="100">
+                <h3><%= booking.movieId.name %></h3>
+                <p>Ticket Price: $<%= booking.movieId.ticketPrice %></p>
+                <p>Rating: <%= booking.movieId.rating %></p>
+                <p>Tickets Booked: <%= booking.tickets %></p> <!-- Display number of tickets -->
+                <p>Booked At: <%= booking.bookedAt.toLocaleString() %></p>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>
